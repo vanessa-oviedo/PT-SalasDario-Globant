@@ -27,6 +27,7 @@ namespace PT_SalasDario.Services
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId));
 
             CreateMap<CharaterResponseDTO, Character>();
+            CreateMap< Character, CharaterResponseDTO>();
         }
     }
 }

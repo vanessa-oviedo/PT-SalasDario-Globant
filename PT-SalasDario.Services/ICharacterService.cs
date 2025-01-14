@@ -1,5 +1,6 @@
 ﻿using PT_SalasDario.Data;
 using PT_SalasDario.Services.Requests;
+using PT_SalasDario.Services.Response;
 
 namespace PT_SalasDario.Services
 {
@@ -7,6 +8,6 @@ namespace PT_SalasDario.Services
     {
         Task<int> ImportCharactersAsync();
 
-        Task<IEnumerable<Character>> GetAllCharactersAsync(int? pageNumber, int? pageSize);
+        Task<IEnumerable<CharaterResponseDTO>> GetAllCharactersAsync(int? pageNumber, int? pageSize);
     }
 }

@@ -48,7 +48,7 @@ namespace PT_SalasDario.Services
             return characters.Count;
         }
 
-        public async Task<IEnumerable<Character>> GetAllCharactersAsync(int? pageNumber, int? pageSize)
+        public async Task<IEnumerable<CharaterResponseDTO>> GetAllCharactersAsync(int? pageNumber, int? pageSize)
         {
             IEnumerable<Character> characters;
 
@@ -57,7 +57,7 @@ namespace PT_SalasDario.Services
             else
                 characters = await _characterRepository.GetAllCharactersPaginated(pageNumber, pageSize);
 
-            return characters;
+            return _mapper.Map<IEnumerable<CharaterResponseDTO>>(characters);
         }
     }
 }
