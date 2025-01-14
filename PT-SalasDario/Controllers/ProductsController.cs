@@ -11,12 +11,12 @@ namespace PT_SalasDario.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductosController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
 
-        public ProductosController(IMapper mapper, IProductService productService)
+        public ProductsController(IMapper mapper, IProductService productService)
         {
             _mapper = mapper;
             _productService = productService;
