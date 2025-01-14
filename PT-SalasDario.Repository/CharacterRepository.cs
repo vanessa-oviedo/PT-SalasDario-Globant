@@ -21,18 +21,15 @@ namespace PT_SalasDario.Repository
 
         public async Task<IEnumerable<Character>> GetAllCharactersPaginated(int? pageNumber, int? pageSize)
         {
-            int skip = (pageNumber ?? 0 - 1) * pageSize ?? 0;
+            int skip = (pageNumber - 1) * pageSize ?? 0;
 
-            IEnumerable<Character> characters = _dbContext.Characters.Skip(skip).Take(pageSize ?? 0).ToList();
-
+            var characters = await _dbContext.Characters.Skip(skip).Take(pageSize ?? 0).OrderBy(i => i.Id).ToListAsync();
             return characters;
         }
 
         public async Task<IEnumerable<Character>> GetAllCharacters()
         {
-
-            IEnumerable<Character> characters = _dbContext.Characters.ToList();
-
+            var characters = await _dbContext.Characters.ToListAsync();
             return characters;
         }
     }

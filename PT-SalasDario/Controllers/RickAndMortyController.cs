@@ -26,7 +26,7 @@ namespace PT_SalasDario.API.Controllers
             try
             {
                 var characters = await _characterService.ImportCharactersAsync();
-                return Ok($"Characters Added {characters.Count()}");
+                return Ok($"# Characters Added: {characters}");
             }
             catch (Exception ex)
             {
@@ -34,14 +34,16 @@ namespace PT_SalasDario.API.Controllers
             }
         }
 
+        //TODO: use the request from the API
         [HttpGet(Name = "GetAllCharacters")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CharaterResponseDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResult))]
-        public async Task<IActionResult> Get([FromBody] GetCharactersRequest request)
+        public async Task<IActionResult> Get([FromQuery] GetCharactersRequest request)
         {
             try
             {
+                //TODO: return a DTO instead of the entity
                 var characters = await _characterService.GetAllCharactersAsync(request);
                 return Ok(characters);
             }

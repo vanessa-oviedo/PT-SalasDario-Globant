@@ -1,5 +1,6 @@
 ﻿using PT_SalasDario.Data;
 using PT_SalasDario.Repository;
+using PT_SalasDario.Services.Models.ExternalModels;
 using PT_SalasDario.Services.Requests;
 using System.Net.Http.Json;
 
@@ -17,13 +18,14 @@ namespace PT_SalasDario.Services
             _characterRepository = characterRepository;
         }
 
-        public async Task<IEnumerable<Character>> ImportCharactersAsync()
+        public async Task<int> ImportCharactersAsync()
         {
             var characters = new List<Character>();
             string url = $"{BASEURL}/character";
 
             while (!string.IsNullOrEmpty(url))
             {
+                //TODO: Should be a model
                 var response = await _httpClient.GetFromJsonAsync<ApiResponse<Character>>(url);
                 if (response?.Results != null)
                 {
@@ -39,7 +41,7 @@ namespace PT_SalasDario.Services
             var charactersEnumerable = characters;
             await _characterRepository.CreateCharacters(charactersEnumerable);
 
-            return characters;
+            return characters.Count;
         }
 
         public async Task<IEnumerable<Character>> GetAllCharactersAsync(GetCharactersRequest charactersRequest)
@@ -52,17 +54,6 @@ namespace PT_SalasDario.Services
                 characters = await _characterRepository.GetAllCharactersPaginated(charactersRequest.PageNumber, charactersRequest.PageSize);
 
             return characters;
-        }
-
-        private class ApiResponse<T>
-        {
-            public Info Info { get; set; }
-            public List<T> Results { get; set; }
-        }
-
-        private class Info
-        {
-            public string Next { get; set; }
         }
     }
 }

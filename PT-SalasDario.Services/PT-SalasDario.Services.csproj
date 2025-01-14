@@ -16,8 +16,4 @@
     <ProjectReference Include="..\PT-SalasDario.Repository\PT-SalasDario.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\" />
-  </ItemGroup>
-
 </Project>
