@@ -6,7 +6,7 @@ namespace PT_SalasDario.Services
 {
     public interface ICharacterService
     {
-        Task<int> ImportCharactersAsync();
+        Task<int> ImportCharacters();
 
         Task<IEnumerable<CharaterResponseDTO>> GetAllCharactersAsync(int? pageNumber, int? pageSize);
     }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using PT_SalasDario.Data;
 using PT_SalasDario.Repository;
 using PT_SalasDario.Services.Models.ExternalModels;
-using PT_SalasDario.Services.Requests;
 using PT_SalasDario.Services.Response;
 using System.Net.Http.Json;
 
@@ -23,16 +21,15 @@ namespace PT_SalasDario.Services
             _mapper = mapper;
         }
 
-        //We can use this inside a Job background like hingfire
-        public async Task<int> ImportCharactersAsync()
+        //We can use this inside a Job background like Hangfire
+        public async Task<int> ImportCharacters()
         {
-            var characters = new List<CharaterResponseDTO>();
+            var characters = new List<CharatersViewModel>();
             string url = $"{BASEURL}/character";
 
             while (!string.IsNullOrEmpty(url))
             {
-                //TODO: Should be a model
-                var response = await _httpClient.GetFromJsonAsync<ApiResponse<CharaterResponseDTO>>(url);
+                var response = await _httpClient.GetFromJsonAsync<ApiResponse<CharatersViewModel>>(url);
                 if (response?.Results != null)
                 {
                     characters.AddRange(response.Results);

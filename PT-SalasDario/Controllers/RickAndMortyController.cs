@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PT_SalasDario.API.Infra;
+using PT_SalasDario.API.Requests;
 using PT_SalasDario.Services;
 using PT_SalasDario.Services.Response;
-using static PT_SalasDario.API.Requests.GetCharatersRequest;
 
 namespace PT_SalasDario.API.Controllers
 {
@@ -25,7 +25,9 @@ namespace PT_SalasDario.API.Controllers
         {
             try
             {
-                var characters = await _characterService.ImportCharactersAsync();
+                // Consider not waiting for the importation to complete before returning a status code.
+                // A fire-and-forget approach might be more suitable if real-time feedback is not required.
+                var characters = await _characterService.ImportCharacters();
                 return Ok($"# Characters Added: {characters}");
             }
             catch (Exception ex)
@@ -34,7 +36,6 @@ namespace PT_SalasDario.API.Controllers
             }
         }
 
-        //TODO: use the request from the API
         [HttpGet(Name = "GetAllCharacters")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CharaterResponseDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
@@ -43,7 +44,6 @@ namespace PT_SalasDario.API.Controllers
         {
             try
             {
-                //TODO: return a DTO instead of the entity
                 var characters = await _characterService.GetAllCharactersAsync(request.PageNumber, request.PageSize);
                 return Ok(characters);
             }
