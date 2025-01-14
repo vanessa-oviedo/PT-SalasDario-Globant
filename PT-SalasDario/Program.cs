@@ -28,7 +28,10 @@ builder.Services.AddDbContext<MyDbContext>((provider, options) =>
 //Dependency Injection
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddHttpClient<ICharacterService, CharacterService>();
+
 
 var app = builder.Build();
 

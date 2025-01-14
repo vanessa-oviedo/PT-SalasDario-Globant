@@ -40,29 +40,34 @@ namespace PT_SalasDario.Data.Migrations
 
             modelBuilder.Entity("PT_SalasDario.Data.Character", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Calle")
+                    b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Ciudad")
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Numero")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Provincia")
+                    b.Property<string>("Species")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("ID");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
 
                     b.ToTable("character");
                 });

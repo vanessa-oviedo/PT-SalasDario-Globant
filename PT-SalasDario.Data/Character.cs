@@ -7,14 +7,19 @@ namespace PT_SalasDario.Data
     public class Character
     {
         [Key]
-        public int ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
 
-        public string Calle { get; set; }
+        public string Name { get; set; }
 
-        public string Numero { get; set; }
+        public string Status { get; set; }
 
-        public string Provincia { get; set; }
+        public string Species { get; set; }
 
-        public string Ciudad { get; set; }
+        public string Type { get; set; }
+
+        public string Gender { get; set; }
+
+        public string Image { get; set; }
     }
 }
