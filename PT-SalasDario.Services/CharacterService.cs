@@ -23,6 +23,7 @@ namespace PT_SalasDario.Services
             _mapper = mapper;
         }
 
+        //We can use this inside a Job background like hingfire
         public async Task<int> ImportCharactersAsync()
         {
             var characters = new List<CharaterResponseDTO>();
