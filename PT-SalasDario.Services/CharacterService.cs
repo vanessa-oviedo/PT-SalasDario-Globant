@@ -1,7 +1,10 @@
-﻿using PT_SalasDario.Data;
+﻿using AutoMapper;
+using Azure.Core;
+using PT_SalasDario.Data;
 using PT_SalasDario.Repository;
 using PT_SalasDario.Services.Models.ExternalModels;
 using PT_SalasDario.Services.Requests;
+using PT_SalasDario.Services.Response;
 using System.Net.Http.Json;
 
 namespace PT_SalasDario.Services
@@ -11,22 +14,24 @@ namespace PT_SalasDario.Services
         private readonly HttpClient _httpClient; //It can be implemented in the Program.cs
         private const string BASEURL = "https://rickandmortyapi.com/api";
         private readonly ICharacterRepository _characterRepository;
+        private readonly IMapper _mapper;
 
-        public CharacterService(HttpClient httpClient, ICharacterRepository characterRepository)
+        public CharacterService(HttpClient httpClient, ICharacterRepository characterRepository, IMapper mapper)
         {
             _httpClient = httpClient;
             _characterRepository = characterRepository;
+            _mapper = mapper;
         }
 
         public async Task<int> ImportCharactersAsync()
         {
-            var characters = new List<Character>();
+            var characters = new List<CharaterResponseDTO>();
             string url = $"{BASEURL}/character";
 
             while (!string.IsNullOrEmpty(url))
             {
                 //TODO: Should be a model
-                var response = await _httpClient.GetFromJsonAsync<ApiResponse<Character>>(url);
+                var response = await _httpClient.GetFromJsonAsync<ApiResponse<CharaterResponseDTO>>(url);
                 if (response?.Results != null)
                 {
                     characters.AddRange(response.Results);
@@ -38,8 +43,7 @@ namespace PT_SalasDario.Services
                 }
             }
 
-            var charactersEnumerable = characters;
-            await _characterRepository.CreateCharacters(charactersEnumerable);
+            await _characterRepository.CreateCharacters(_mapper.Map<IEnumerable<Character>>(characters));
 
             return characters.Count;
         }

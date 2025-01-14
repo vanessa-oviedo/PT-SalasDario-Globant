@@ -25,6 +25,8 @@ namespace PT_SalasDario.Services
                 .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId));
+
+            CreateMap<CharaterResponseDTO, Character>();
         }
     }
 }
