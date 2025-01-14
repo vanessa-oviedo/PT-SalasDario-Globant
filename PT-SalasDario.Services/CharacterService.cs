@@ -1,10 +1,11 @@
 ﻿using PT_SalasDario.Data;
 using PT_SalasDario.Repository;
+using PT_SalasDario.Services.Requests;
 using System.Net.Http.Json;
 
 namespace PT_SalasDario.Services
 {
-    public class CharacterService: ICharacterService
+    public class CharacterService : ICharacterService
     {
         private readonly HttpClient _httpClient; //It can be implemented in the Program.cs
         private const string BASEURL = "https://rickandmortyapi.com/api";
@@ -16,7 +17,7 @@ namespace PT_SalasDario.Services
             _characterRepository = characterRepository;
         }
 
-        public async Task<List<Character>> ImportCharactersAsync()
+        public async Task<IEnumerable<Character>> ImportCharactersAsync()
         {
             var characters = new List<Character>();
             string url = $"{BASEURL}/character";
@@ -37,6 +38,18 @@ namespace PT_SalasDario.Services
 
             var charactersEnumerable = characters;
             await _characterRepository.CreateCharacters(charactersEnumerable);
+
+            return characters;
+        }
+
+        public async Task<IEnumerable<Character>> GetAllCharactersAsync(GetCharactersRequest charactersRequest)
+        {
+            IEnumerable<Character> characters;
+
+            if (charactersRequest.PageNumber == null || charactersRequest.PageSize == null)
+                characters = await _characterRepository.GetAllCharacters();
+            else
+                characters = await _characterRepository.GetAllCharactersPaginated(charactersRequest.PageNumber, charactersRequest.PageSize);
 
             return characters;
         }

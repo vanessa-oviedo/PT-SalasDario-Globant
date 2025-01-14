@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PT_SalasDario.API.Infra;
 using PT_SalasDario.Services;
+using PT_SalasDario.Services.Requests;
+using PT_SalasDario.Services.Response;
 
 namespace PT_SalasDario.API.Controllers
 {
@@ -15,10 +18,37 @@ namespace PT_SalasDario.API.Controllers
         }
 
         [HttpPost(Name = "ImportCharactersToDB")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResult))]
         public async Task<IActionResult> ImportCharactersToDB()
         {
-            var characters = await _characterService.ImportCharactersAsync();
-            return Ok(characters);
+            try
+            {
+                var characters = await _characterService.ImportCharactersAsync();
+                return Ok($"Characters Added {characters.Count()}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorResult { StatusCode = 500, Errors = [ex.Message.ToString()] });
+            }
+        }
+
+        [HttpGet(Name = "GetAllCharacters")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CharaterResponseDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResult))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorResult))]
+        public async Task<IActionResult> Get([FromBody] GetCharactersRequest request)
+        {
+            try
+            {
+                var characters = await _characterService.GetAllCharactersAsync(request);
+                return Ok(characters);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorResult { StatusCode = 500, Errors = [ex.Message.ToString()] });
+            }
         }
     }
 }
