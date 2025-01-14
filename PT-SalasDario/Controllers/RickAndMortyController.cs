@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PT_SalasDario.API.Infra;
 using PT_SalasDario.Services;
-using PT_SalasDario.Services.Requests;
 using PT_SalasDario.Services.Response;
+using static PT_SalasDario.API.Requests.GetCharatersRequest;
 
 namespace PT_SalasDario.API.Controllers
 {
@@ -44,7 +44,7 @@ namespace PT_SalasDario.API.Controllers
             try
             {
                 //TODO: return a DTO instead of the entity
-                var characters = await _characterService.GetAllCharactersAsync(request);
+                var characters = await _characterService.GetAllCharactersAsync(request.PageNumber, request.PageSize);
                 return Ok(characters);
             }
             catch (Exception ex)

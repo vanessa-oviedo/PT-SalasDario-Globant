@@ -7,6 +7,6 @@ namespace PT_SalasDario.Services
     {
         Task<int> ImportCharactersAsync();
 
-        Task<IEnumerable<Character>> GetAllCharactersAsync(GetCharactersRequest charactersRequest);
+        Task<IEnumerable<Character>> GetAllCharactersAsync(int? pageNumber, int? pageSize);
     }
 }

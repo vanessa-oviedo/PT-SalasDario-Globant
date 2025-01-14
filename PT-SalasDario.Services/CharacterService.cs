@@ -44,14 +44,14 @@ namespace PT_SalasDario.Services
             return characters.Count;
         }
 
-        public async Task<IEnumerable<Character>> GetAllCharactersAsync(GetCharactersRequest charactersRequest)
+        public async Task<IEnumerable<Character>> GetAllCharactersAsync(int? pageNumber, int? pageSize)
         {
             IEnumerable<Character> characters;
 
-            if (charactersRequest.PageNumber == null || charactersRequest.PageSize == null)
+            if (pageNumber == null || pageSize == null)
                 characters = await _characterRepository.GetAllCharacters();
             else
-                characters = await _characterRepository.GetAllCharactersPaginated(charactersRequest.PageNumber, charactersRequest.PageSize);
+                characters = await _characterRepository.GetAllCharactersPaginated(pageNumber, pageSize);
 
             return characters;
         }
